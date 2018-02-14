@@ -12,3 +12,8 @@ Notre équipe est constitué de 4 personnes:
 - BELHADJ Jawad
 
 Nous sommes tous étudiant en alternance à l'[IMT Lille Douai](http://imt-lille-douai.fr/)
+
+## Process:
+
+- Journal: Pour chaque personne, un journal qui retrace les actions faites avec un petit résumé et la réference des commits.
+- Trello: Pour suivre les tâches, backlog, in progress, PR...
