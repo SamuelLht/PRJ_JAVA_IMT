@@ -1,5 +1,6 @@
 # PRJ_JAVA_IMT
 IMT - Projet Java Avancé - Mario Style
+[Voir le dépôt commun](https://github.com/IMTLille-Info/info-advanced)
 
 ## Contexte:
 
