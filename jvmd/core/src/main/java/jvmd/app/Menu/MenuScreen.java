@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 
+import Map.TileMap;
 import jvmd.app.Constants;
 import jvmd.app.JVMD;
 
@@ -11,6 +12,7 @@ public class MenuScreen implements Screen{
     
 	final JVMD app;
     private OrthographicCamera camera;
+    private TileMap map;
     
     public MenuScreen(final JVMD app){
         
@@ -19,6 +21,8 @@ public class MenuScreen implements Screen{
         camera = new OrthographicCamera();
         camera.setToOrtho(false, Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT);
         camera.update();
+        
+        map = new TileMap("level1.tmx", camera);
         
         Gdx.input.setInputProcessor(new MenuInputProcessor(this));
         
@@ -30,7 +34,9 @@ public class MenuScreen implements Screen{
 
     @Override
     public void render(float delta) {
-        // TODO Auto-generated method stub      
+        camera.update();
+        map.getTiledMapRenderer().setView(camera); // Si quelqu'un a une meilleur proposition ici je suis preneur !
+        map.getTiledMapRenderer().render();
     }
 
 	@Override
