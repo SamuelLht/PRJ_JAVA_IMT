@@ -19,6 +19,8 @@ project(':core') {
     dependencies {
         compile group: 'com.badlogicgames.gdx', name: 'gdx', version: rootProject.gdxVersion
         compile "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
+        compile "com.codeandweb.physicseditor:gdx-pe-loader:1.1.0"
+        compile "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
     }
 
     task atlases {
@@ -36,6 +38,7 @@ project(':desktop') {
         compile group: 'com.badlogicgames.gdx', name: 'gdx-backend-lwjgl', version: rootProject.gdxVersion
         compile group: 'com.badlogicgames.gdx', name: 'gdx-platform', version: rootProject.gdxVersion, classifier: 'natives-desktop'
         compile "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
+        compile "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-desktop"
     }
 
     apply plugin: 'application'
