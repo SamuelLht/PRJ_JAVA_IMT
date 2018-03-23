@@ -6,6 +6,7 @@ public class Constants {
 	
 	// General Constants
 	public static final String APP_TITLE = "JVMD";
+	public static final String CURRENT_VERSION = "1.0";
 	
     // Screen Constants
 	public static final int SCREEN_WIDTH = 800;
