@@ -1,13 +1,14 @@
 package jvmd.app.Game;
 
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.physics.box2d.World;
 
 public class GameInputProcessor implements InputProcessor {
-	
+
 	private GameScreen screen;
 	private World world;
-	
+
 	public GameInputProcessor(GameScreen screen, World world) {
 		// TODO Auto-generated constructor stub
 		this.screen = screen;
@@ -16,7 +17,16 @@ public class GameInputProcessor implements InputProcessor {
 
 	@Override
 	public boolean keyDown(int keycode) {
-		// TODO Auto-generated method stub
+		switch (keycode) {
+			
+			case Keys.ESCAPE:
+				screen.pause();
+				break;
+				
+			default:
+				break;
+				
+		}
 		return false;
 	}
 

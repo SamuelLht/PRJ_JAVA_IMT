@@ -2,80 +2,152 @@ package jvmd.app.Game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 
 import jvmd.app.Constants;
+import jvmd.app.GraphicsHelper;
 import jvmd.app.JVMD;
 
-public class PauseScreen implements Screen{
-    
-	final JVMD app;
-	final GameScreen game;
-    private OrthographicCamera camera;
-    
-    public PauseScreen(final JVMD app, final GameScreen game){
-        
-    	this.app = app;
-    	this.game = game;
-        
-        camera = new OrthographicCamera();
-        camera.setToOrtho(false, Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT);
-        camera.update();
-        
-        Gdx.input.setInputProcessor(new PauseInputProcessor(this));
-    }
-    
-    public void resumeGame() {
-    	app.setScreen(game);
-    }
-    
-    public void newGame() {
-    	app.launchGame();
-    }
-    
-    public void launchMenu() {
-    	app.launchMenu();
-    }
+public class PauseScreen implements Screen {
 
-    @Override
-    public void render(float delta) {
-        // TODO Auto-generated method stub      
-    }
+	final JVMD app;
+	private GameScreen game;
+	private OrthographicCamera camera;
+	private SpriteBatch batch;
+	protected Stage stage;
+	private Viewport viewport;
+	private GraphicsHelper graphicsHelper = GraphicsHelper.getInstance();
+
+	public PauseScreen(final JVMD app, final GameScreen game) {
+
+		this.app = app;
+		this.game = game;
+
+		batch = new SpriteBatch();
+		camera = new OrthographicCamera();
+		camera.setToOrtho(false, Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT);
+		camera.update();
+		viewport = new FitViewport(Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT, camera);
+		viewport.apply();
+
+		stage = new Stage(viewport, batch);
+
+	}
+	
+	@Override
+	public void render(float delta) {
+		// TODO Auto-generated method stub
+		Gdx.gl.glClearColor(.1f, .12f, .16f, 1);
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+		stage.act();
+		stage.draw();
+	}
 
 	@Override
 	public void show() {
 		// TODO Auto-generated method stub
+		Gdx.input.setInputProcessor(stage);
+
+		// Create Table
+		Table mainTable = new Table();
+		// Set table to fill stage
+		mainTable.setFillParent(true);
+		// Set alignment of contents in the table.
+		mainTable.center();
 		
+		// Title
+				Label version = graphicsHelper.getRetroLabel("version " + Constants.CURRENT_VERSION, 30,
+						Color.valueOf("963230"));
+				Label jvmd = graphicsHelper.getRetroLabel("Je Veux Mon Diplome", 40, Color.valueOf("963230"));
+				VerticalGroup subtitle = new VerticalGroup().center().padBottom(50);
+				subtitle.addActor(jvmd);
+				subtitle.addActor(version);
+				mainTable.add(subtitle).row();
+
+		// Main title
+		Label title = graphicsHelper.getMarioLabel("Pause", 130, null);
+		title.setAlignment(2, 2);
+		mainTable.add(title).row();
+
+		// New and Resume Buttons
+		TextButton resumeButton = graphicsHelper.getTextButton("Resume", 40, new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				app.setScreen(game);
+				game.resume();
+			}
+		});
+
+		TextButton newGameButton = graphicsHelper.getTextButton("New Game", 40, new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				game.dispose();
+				app.launchGame();
+			}
+		});
+
+		HorizontalGroup buttons = new HorizontalGroup().center().padBottom(10).padTop(60);
+		buttons.addActor(resumeButton);
+		buttons.addActor(newGameButton);
+		mainTable.add(buttons).row();
+		
+		// MenuButton
+		TextButton menuButton = graphicsHelper.getTextButton("Abandon", 40, new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				app.launchMenu();
+				game.dispose();
+			}
+		});
+		mainTable.add(menuButton);
+
+		// Add table to stage
+		stage.addActor(mainTable);
 	}
 
 	@Override
 	public void resize(int width, int height) {
 		// TODO Auto-generated method stub
-		
+		viewport.update(width, height);
+		camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0);
+		camera.update();
 	}
 
 	@Override
 	public void pause() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void resume() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void hide() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void dispose() {
 		// TODO Auto-generated method stub
-		
-	}
 
+	}
 }
