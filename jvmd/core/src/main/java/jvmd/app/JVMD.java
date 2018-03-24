@@ -20,7 +20,7 @@ public class JVMD extends Game implements ApplicationListener {
         batch = new SpriteBatch();
         assets = new AssetManager();
 
-        launchMenu();
+        launchGame();
         
     }
 

@@ -2,7 +2,9 @@ package jvmd.app.Game;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -26,7 +28,7 @@ public class GameScreen extends ApplicationAdapter implements Screen{
     
     private SpriteBatch batch;
     private Texture texture;
-    private Player Mario;
+    public Player Mario;
     private Array<Enemy> enemies;
     private Array<Item> items;
     
@@ -39,23 +41,19 @@ public class GameScreen extends ApplicationAdapter implements Screen{
 	public void create() {
 		batch = new SpriteBatch();
 		
-		texture = new Texture(Gdx.files.internal("resources/koalio-single.png"));
+		texture = new Texture(Gdx.files.internal("koalio-single.png"));
 		Mario = new Player(this, Constants.SCREEN_WIDTH/2, Constants.SCREEN_HEIGHT/2);
 		Mario.setTexture(texture);
-	}
-
-	public void render() {
-		super.render();
-		batch.begin();
-		Mario.draw(batch);
-		batch.end();
 	}
 
 	public void render(float delta) {
 		//super.render();
 		
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		
 		batch.begin();
-		Mario.draw(batch);
+		batch.draw(Mario.getTexture(), Mario.positionX, Mario.positionY, Mario.getTexture().getWidth(), Mario.getTexture().getHeight());
+		Mario.MajDeplacement();
 		batch.end();
 	}
 
@@ -74,10 +72,13 @@ public class GameScreen extends ApplicationAdapter implements Screen{
         camera.update();
         
         TmxMapLoader tmxMapLoader = new TmxMapLoader();
-        tiledMap = tmxMapLoader.load("");
+        //tiledMap = tmxMapLoader.load("");
         
-        Gdx.input.setInputProcessor(new GameInputProcessor(this, world));
-		
+        GameInputProcessor GameInputProc = new GameInputProcessor(this, world, Mario);
+        Gdx.input.setInputProcessor(GameInputProc);
+        //Envoi de GameInputProcessor à Mario pour gestion avancé
+        Mario.getGameInputProcessor(GameInputProc);
+        
 	}
 
 	@Override
