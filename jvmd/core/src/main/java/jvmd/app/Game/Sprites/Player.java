@@ -17,7 +17,12 @@ public class Player extends AnimatedSprite {
 	public int ConstantVitesse = 10;
 	public int HauteurSaut = 40;
 	
+	//Pour méthode déplacement
 	public boolean KeyRightDown, KeyLeftDown, KeyJumpDown;
+	
+	//Pour méthode Jump()
+	int etape = 0;
+	boolean sens = true; //true saut - false chute
 	
 	public Player(GameScreen p_screen, float x, float y) {
 		super(p_screen, x, y);
@@ -25,45 +30,75 @@ public class Player extends AnimatedSprite {
 		positionX = 150;
 		positionY = 150;
 	}
+	
+	public void MajDeplacement() {
+		Right();
+		Left();
+		Jump();
+	}
 
-	public void DeplacementX() {
+	public void Right() {
 		if (KeyRightDown == true) {
 			positionX = positionX + ConstantVitesse;
-			GameInputProc.StatutToucheMAJ();
+			GameInputProc.UpdateKeys();
 		}
-			
+	}
+	
+	public void Left() {
 		if (KeyLeftDown == true) {
 			positionX = positionX - ConstantVitesse;
-			GameInputProc.StatutToucheMAJ();
+			GameInputProc.UpdateKeys();
 		}
 	}
 	
-	public void DeplacementY() {
+	public void Jump() {		
 		if (KeyJumpDown == true) {
-			positionY = positionY + ConstantVitesse;
-			GameInputProc.StatutToucheMAJ();
-			
+			if (sens == true) {
+				if (etape < 10) {
+					positionY = positionY + ConstantVitesse;				
+					etape = etape + 1;
+				}
+				if (etape == 10) {
+					sens = false;
+				}
+			}
+			if (sens == false) {
+				if (etape > 0) {
+					positionY = positionY - ConstantVitesse;				
+					etape = etape - 1;
+				}
+				if (etape == 0) {
+					sens = true;
+					KeyJumpDown = false;
+					GameInputProc.KeyJump = false;
+				}
+			}
 		}
-	}
-	
-	public void Saut() {
-		for(int i = 0; i < 1000; i++) {
-			positionY = positionY + 1;
-		}
+		/*
+		if (sens == true) {
+			if (etape < 30) {
+				positionY = positionY + 1;
+				etape = etape + 1;
+			}
+			if (etape == 30) {
+				sens = false;
+			}
+		}*/
 		
-		for(int i = 0; i < 1000; i++) {
-			positionY = positionY - 1;
-		}
+		/*if (sens == false) {
+			if (etape > 0) {
+				positionY = positionY - 1;
+				etape = etape - 1; 
+			}
+		}*/
 		
+		/*if (etape != 0) {
+			Jump();
+		}*/
 	}
 	
 	public void getGameInputProcessor(GameInputProcessor pProcessor) {
 		GameInputProc = pProcessor;
-	}
-	
-	public void MajDeplacement() {
-		DeplacementX();
-		DeplacementY();
 	}
 
 }

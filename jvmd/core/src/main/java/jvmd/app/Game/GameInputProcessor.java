@@ -16,12 +16,12 @@ public class GameInputProcessor implements InputProcessor {
 	public boolean KeyLeft = false;
 	public boolean KeyJump = false;
 	
-	public GameInputProcessor(GameScreen screen, World world, Player MainPlayer) {
+	public GameInputProcessor(GameScreen screen, World world, Player P_MainPlayer) {
 
 		// TODO Auto-generated constructor stub
 		this.screen = screen;
 		this.world = world;
-		this.MainPlayer = MainPlayer;
+		this.MainPlayer = P_MainPlayer;
 	}
 
 	@Override
@@ -31,18 +31,18 @@ public class GameInputProcessor implements InputProcessor {
 	    {
 			case Keys.LEFT:
 				KeyLeft = true;
-				StatutToucheMAJ();
-				MainPlayer.DeplacementX();
+				UpdateKeys();
+				MainPlayer.Left();
 				break;
 			case Keys.RIGHT:
 				KeyRight = true;
-				StatutToucheMAJ();
-				MainPlayer.DeplacementX();
+				UpdateKeys();
+				MainPlayer.Right();
 				break;
 			case Keys.SPACE:
 				KeyJump = true;
-			 	StatutToucheMAJ();
-				MainPlayer.Saut();
+			 	UpdateKeys();
+				MainPlayer.Jump();
 				//MainPlayer.DeplacementY();
 				break;
 	    }
@@ -55,17 +55,17 @@ public class GameInputProcessor implements InputProcessor {
 	    {
 			case Keys.LEFT:
 				KeyLeft = false;
-				StatutToucheMAJ();
+				UpdateKeys();
 				break;
 			case Keys.RIGHT:
 				KeyRight = false;
-				StatutToucheMAJ();
+				UpdateKeys();
 				break;
 			case Keys.SPACE:
-				KeyJump = false;
-				StatutToucheMAJ();
+				//KeyJump = false;
+				UpdateKeys();
 				break;
-      case Keys.ESCAPE:
+			case Keys.ESCAPE:
 				screen.pause();
 				break;
 				
@@ -75,7 +75,7 @@ public class GameInputProcessor implements InputProcessor {
 	    return true;
     }
     
-    public void StatutToucheMAJ() {
+    public void UpdateKeys() {
     		MainPlayer.KeyRightDown = KeyRight;
     		MainPlayer.KeyLeftDown = KeyLeft;
     		MainPlayer.KeyJumpDown = KeyJump;
