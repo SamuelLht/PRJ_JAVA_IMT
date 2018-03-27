@@ -20,4 +20,11 @@
 		<nature>org.eclipse.jdt.core.javanature</nature>
 		<nature>org.eclipse.buildship.core.gradleprojectnature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>resources</name>
+			<type>2</type>
+			<location>C:/Users/Thomas/git/PRJ_JAVA_IMT/jvmd/core/src/main/resources</location>
+		</link>
+	</linkedResources>
 </projectDescription>

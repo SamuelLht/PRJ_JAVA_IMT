@@ -4,9 +4,10 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.physics.box2d.World; 
 import jvmd.app.Game.Sprites.Player;
+import com.badlogic.gdx.Input.Keys;
 
 public class GameInputProcessor implements InputProcessor {
-	
+
 	private GameScreen screen;
 	private World world;
 	private Player MainPlayer;
@@ -16,6 +17,7 @@ public class GameInputProcessor implements InputProcessor {
 	public boolean KeyJump = false;
 	
 	public GameInputProcessor(GameScreen screen, World world, Player MainPlayer) {
+
 		// TODO Auto-generated constructor stub
 		this.screen = screen;
 		this.world = world;
@@ -62,6 +64,12 @@ public class GameInputProcessor implements InputProcessor {
 			case Keys.SPACE:
 				KeyJump = false;
 				StatutToucheMAJ();
+				break;
+      case Keys.ESCAPE:
+				screen.pause();
+				break;
+				
+			default:
 				break;
 	    }
 	    return true;
