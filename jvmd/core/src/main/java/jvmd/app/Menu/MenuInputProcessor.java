@@ -4,11 +4,7 @@ import com.badlogic.gdx.InputProcessor;
 
 public class MenuInputProcessor implements InputProcessor {
 	
-	private MenuScreen screen;
-	
 	public MenuInputProcessor(MenuScreen screen) {
-		// TODO Auto-generated constructor stub
-		this.screen = screen;
 	}
 
 	@Override

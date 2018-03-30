@@ -4,11 +4,7 @@ import com.badlogic.gdx.InputProcessor;
 
 public class PauseInputProcessor implements InputProcessor {
 
-	private PauseScreen screen;
-	
 	public PauseInputProcessor(PauseScreen screen) {
-		// TODO Auto-generated constructor stub
-		this.screen = screen;
 	}
 	
 	@Override
