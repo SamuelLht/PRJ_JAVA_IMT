@@ -142,7 +142,7 @@ public class GameScreen extends ApplicationAdapter implements Screen{
 	@Override
 	public void resume() {
 		// TODO Auto-generated method stub
-		
+		Gdx.input.setInputProcessor(GameInputProc);
 	}
 
 	@Override
@@ -153,8 +153,8 @@ public class GameScreen extends ApplicationAdapter implements Screen{
 
 	@Override
 	public void dispose() {
-		batch.dispose();
-		texture.dispose();
+		if(batch != null) batch.dispose();
+		if(texture != null) texture.dispose();
 	}
 
 

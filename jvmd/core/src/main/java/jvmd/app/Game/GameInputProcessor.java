@@ -30,6 +30,8 @@ public class GameInputProcessor implements InputProcessor {
 			case Keys.SPACE:
 				screen.Mario.Space = true;
 				break;
+			case Keys.ESCAPE:
+				screen.pause();
 	    }
 	    return true;
     }
