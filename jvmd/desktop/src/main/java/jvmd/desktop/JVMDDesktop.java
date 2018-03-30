@@ -15,7 +15,7 @@ public class JVMDDesktop {
         config.height = Constants.SCREEN_HEIGHT;
         config.forceExit = false; // cleaner exit
         // Avoid OpenAL library bug
-        config.disableAudio = true;
+        LwjglApplicationConfiguration.disableAudio = true;
         new LwjglApplication(new JVMD(), config);
     }
 }
