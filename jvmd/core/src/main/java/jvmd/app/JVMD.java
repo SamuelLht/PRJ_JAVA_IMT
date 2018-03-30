@@ -10,17 +10,16 @@ import jvmd.app.Menu.MenuScreen;
 
 public class JVMD extends Game implements ApplicationListener {
     
-	private SpriteBatch batch;
-    public AssetManager assets;
+	public AssetManager assets;
 
     @Override
 
     public void create() {
     	
-        batch = new SpriteBatch();
+        new SpriteBatch();
         assets = new AssetManager();
 
-        launchGame();
+        launchMenu();
         
     }
 

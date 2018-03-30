@@ -14,5 +14,11 @@ public class Constants {
 	
 	// Game Constants
 	public static final Vector2 GRAVITY = new Vector2(0.0f, -9.8f * 4);
+
+	public static final float TIME_STEP = 1;
+
+	public static final int VELOCITY_ITERATIONS = 1;
+
+	public static final int POSITION_ITERATIONS = 1;
 	
 }
