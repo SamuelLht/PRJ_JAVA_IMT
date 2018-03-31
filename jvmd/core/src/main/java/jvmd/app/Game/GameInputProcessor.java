@@ -22,13 +22,13 @@ public class GameInputProcessor implements InputProcessor {
 	    switch (keycode)
 	    {
 			case Keys.LEFT:
-				screen.Mario.Left = true;
+				screen.Mario.setLeft(true);
 				break;
 			case Keys.RIGHT:
-				screen.Mario.Right = true;
+				screen.Mario.setRight(true);
 				break;
 			case Keys.SPACE:
-				screen.Mario.Space = true;
+				screen.Mario.setSpace(true);
 				break;
 			case Keys.ESCAPE:
 				screen.pause();
@@ -41,13 +41,13 @@ public class GameInputProcessor implements InputProcessor {
 	    switch (keycode)
 	    {
 			case Keys.LEFT:
-				screen.Mario.Left = false;
+				screen.Mario.setLeft(false);
 				break;
 			case Keys.RIGHT:
-				screen.Mario.Right = false;
+				screen.Mario.setRight(false);
 				break;
 			case Keys.SPACE:
-				screen.Mario.Space = false;
+				screen.Mario.setSpace(false);
 				break;
 	    }
 	    return true;

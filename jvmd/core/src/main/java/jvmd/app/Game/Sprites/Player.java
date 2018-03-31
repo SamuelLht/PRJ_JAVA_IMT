@@ -11,34 +11,45 @@ import jvmd.app.Game.GameScreen;
 
 public class Player extends AnimatedSprite {
 	
-	public boolean Left = false;
-	public boolean Right = false;
-	public boolean Space = false;
+	private boolean Left;
+	private boolean Right;
+	private boolean Space;
+	private boolean alive;
 
-	static float DAMPING = 0.87f;
+	public static final float DAMPING = 0.87f;
 	
-	public final Vector2 position = new Vector2();
-	final Vector2 velocity = new Vector2();
-	State state = State.Walking;
-	float stateTime = 0;
-	boolean facesRight = true;
-	boolean grounded = false;
+	private final Vector2 position;
+	private final Vector2 velocity;
+	private State state;
+	private float stateTime;
+	private boolean facesRight;
+	private boolean grounded;
 	
-	public int ConstantVitesse = 500;
-	public int HauteurSaut = 2000;
+	public static final int ConstantVitesse = 500;
+	public static final int HauteurSaut = 2000;
 	
-	Texture marioTexture;
-	TextureRegion[][] regions;
+	private Texture marioTexture;
+	private TextureRegion[][] regions;
 	
 	public boolean KeyRightDown, KeyLeftDown, KeyJumpDown;
 	
 	public Player(GameScreen p_screen, float x, float y) {
 		super(p_screen, 20, 50, x, y);
-		position.x = x;
-		position.y = y;
+		this.position = new Vector2();
+		this.velocity = new Vector2();
+		this.state = State.Walking;
+		this.stateTime = 0;
+		this.facesRight = true;
+		this.grounded = false;
+		this.position.x = x;
+		this.position.y = y;
 		setTexture(new Texture(Gdx.files.internal("mario_simple.png")));
 		this.WIDTH = getTexture().getWidth() / 16f;
 		this.HEIGHT = getTexture().getHeight() / 16f;
+		this.alive = true;
+		this.Left = false;
+		this.Right = false;
+		this.Space = false;
 	}
 	
 	public void Jump() {
@@ -144,6 +155,165 @@ public class Player extends AnimatedSprite {
 		// Apply damping to the velocity on the x-axis so we don't
 		// walk infinitely once a key was pressed
 		velocity.x *= DAMPING;
+		
+		if(position.y + HEIGHT< 0) {
+			this.alive = false;
+		}
 	}
 
+	/**
+	 * @return the left
+	 */
+	public boolean isLeft() {
+		return Left;
+	}
+
+	/**
+	 * @param left the left to set
+	 */
+	public void setLeft(boolean left) {
+		Left = left;
+	}
+
+	/**
+	 * @return the right
+	 */
+	public boolean isRight() {
+		return Right;
+	}
+
+	/**
+	 * @param right the right to set
+	 */
+	public void setRight(boolean right) {
+		Right = right;
+	}
+
+	/**
+	 * @return the space
+	 */
+	public boolean isSpace() {
+		return Space;
+	}
+
+	/**
+	 * @param space the space to set
+	 */
+	public void setSpace(boolean space) {
+		Space = space;
+	}
+
+	/**
+	 * @return the alive
+	 */
+	public boolean isAlive() {
+		return alive;
+	}
+
+	/**
+	 * @param alive the alive to set
+	 */
+	public void setAlive(boolean alive) {
+		this.alive = alive;
+	}
+
+	/**
+	 * @return the state
+	 */
+	public State getState() {
+		return state;
+	}
+
+	/**
+	 * @param state the state to set
+	 */
+	public void setState(State state) {
+		this.state = state;
+	}
+
+	/**
+	 * @return the stateTime
+	 */
+	public float getStateTime() {
+		return stateTime;
+	}
+
+	/**
+	 * @param stateTime the stateTime to set
+	 */
+	public void setStateTime(float stateTime) {
+		this.stateTime = stateTime;
+	}
+
+	/**
+	 * @return the facesRight
+	 */
+	public boolean isFacesRight() {
+		return facesRight;
+	}
+
+	/**
+	 * @param facesRight the facesRight to set
+	 */
+	public void setFacesRight(boolean facesRight) {
+		this.facesRight = facesRight;
+	}
+
+	/**
+	 * @return the grounded
+	 */
+	public boolean isGrounded() {
+		return grounded;
+	}
+
+	/**
+	 * @param grounded the grounded to set
+	 */
+	public void setGrounded(boolean grounded) {
+		this.grounded = grounded;
+	}
+
+	/**
+	 * @return the marioTexture
+	 */
+	public Texture getMarioTexture() {
+		return marioTexture;
+	}
+
+	/**
+	 * @param marioTexture the marioTexture to set
+	 */
+	public void setMarioTexture(Texture marioTexture) {
+		this.marioTexture = marioTexture;
+	}
+
+	/**
+	 * @return the regions
+	 */
+	public TextureRegion[][] getRegions() {
+		return regions;
+	}
+
+	/**
+	 * @param regions the regions to set
+	 */
+	public void setRegions(TextureRegion[][] regions) {
+		this.regions = regions;
+	}
+
+	/**
+	 * @return the position
+	 */
+	public Vector2 getPosition() {
+		return position;
+	}
+
+	/**
+	 * @return the velocity
+	 */
+	public Vector2 getVelocity() {
+		return velocity;
+	}
+	
+	
 }

@@ -81,16 +81,20 @@ public class GameScreen extends ApplicationAdapter implements Screen {
 		Mario.update(deltaTime);
 
 		// let the camera follow mario, x-axis only
-		camera.position.x = Mario.position.x;
+		camera.position.x = Mario.getPosition().x;
 		camera.update();
 
 		// set the TiledMapRenderer view based on what the
 		// camera sees, and render the map
 		renderer.setView(camera);
 		renderer.render();
-
+		
+		if(!Mario.isAlive()) {
+			launchMenu();
+		}
+		
 		batch.begin();
-		batch.draw(Mario.getTexture(), Mario.position.x, Mario.position.y, Mario.WIDTH, Mario.HEIGHT);
+		batch.draw(Mario.getTexture(), Mario.getPosition().x, Mario.getPosition().y, Mario.getWIDTH(), Mario.getHEIGHT());
 		batch.end();
 
 	}
