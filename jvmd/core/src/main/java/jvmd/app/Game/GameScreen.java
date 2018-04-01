@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
@@ -93,18 +94,27 @@ public class GameScreen extends ApplicationAdapter implements Screen {
 			launchMenu();
 		}
 		
-		batch.begin();
-		batch.draw(Mario.getTexture(), Mario.getPosition().x, Mario.getPosition().y, Mario.getWIDTH(), Mario.getHEIGHT());
-		batch.end();
-
+		renderMario(delta);
 	}
+	
+	private void renderMario (float deltaTime) {
 
+		Batch batch = renderer.getBatch();
+		batch.begin();
+		if (Mario.isFacesRight()) {
+			batch.draw(Mario.getTexture(), Mario.getPosition().x, Mario.getPosition().y, Mario.getWIDTH(), Mario.getHEIGHT());
+		} else {
+			batch.draw(Mario.getTexture(), Mario.getPosition().x + Mario.getWIDTH(), Mario.getPosition().y, -Mario.getWIDTH(), Mario.getHEIGHT());
+		}
+		batch.end();
+}
+	
 	public void launchMenu() {
 		app.launchMenu();
 	}
 
-	public void getTiles(int startX, int startY, int endX, int endY) {
-		TiledMapTileLayer layer = (TiledMapTileLayer) map.getLayers().get("walls");
+	public void getTiles(int startX, int startY, int endX, int endY, String layers) {
+		TiledMapTileLayer layer = (TiledMapTileLayer) map.getLayers().get(layers);
 		pool.freeAll(tiles);
 		tiles.clear();
 		for (int y = 0; y <= endY; y++) {

@@ -114,7 +114,7 @@ public class Player extends AnimatedSprite {
 		}
 		startY = (int)(position.y);
 		endY = (int)(position.y + HEIGHT);
-		game.getTiles(startX, startY, endX, endY);
+		game.getTiles(startX, startY, endX, endY, "walls");
 		marioRect.x += velocity.x;
 		if(game.overlapsTiles(marioRect) != null)
 				velocity.x = 0;
@@ -129,14 +129,14 @@ public class Player extends AnimatedSprite {
 		}
 		startX = (int)(position.x);
 		endX = (int)(position.x + WIDTH);
-		game.getTiles(startX, startY, endX, endY);
+		game.getTiles(startX, startY, endX, endY, "walls");
 		marioRect.y += velocity.y;
 		Rectangle tileTested = game.overlapsTiles(marioRect);
 		if(tileTested != null) {
 			if (velocity.y > 0) {
 				position.y = tileTested.y - HEIGHT;
 				// we hit a block jumping upwards, let's destroy it!
-				TiledMapTileLayer layer = (TiledMapTileLayer) game.map.getLayers().get("walls");
+				TiledMapTileLayer layer = (TiledMapTileLayer) game.map.getLayers().get("breakable");
 				layer.setCell((int)tileTested.x, (int)tileTested.y, null);
 			} else {
 				position.y = tileTested.y + tileTested.height;
