@@ -123,15 +123,29 @@ public class GameScreen extends ApplicationAdapter implements Screen {
 		/*batch.begin();
 		batch.draw(Mario.getTexture(), Mario.getPosition().x, Mario.getPosition().y, Mario.getWIDTH(), Mario.getHEIGHT());
 		batch.end();*/
-
+		
+		//A GARDER OU PAS / RESOLUTION DE CONFLIT 01/03
+		//renderMario(delta);
 	}
+	
+	private void renderMario (float deltaTime) {
 
+		Batch batch = renderer.getBatch();
+		batch.begin();
+		if (Mario.isFacesRight()) {
+			batch.draw(Mario.getTexture(), Mario.getPosition().x, Mario.getPosition().y, Mario.getWIDTH(), Mario.getHEIGHT());
+		} else {
+			batch.draw(Mario.getTexture(), Mario.getPosition().x + Mario.getWIDTH(), Mario.getPosition().y, -Mario.getWIDTH(), Mario.getHEIGHT());
+		}
+		batch.end();
+}
+	
 	public void launchMenu() {
 		app.launchMenu();
 	}
 
-	public void getTiles(int startX, int startY, int endX, int endY) {
-		TiledMapTileLayer layer = (TiledMapTileLayer) map.getLayers().get("walls");
+	public void getTiles(int startX, int startY, int endX, int endY, String layers) {
+		TiledMapTileLayer layer = (TiledMapTileLayer) map.getLayers().get(layers);
 		pool.freeAll(tiles);
 		tiles.clear();
 		for (int y = 0; y <= endY; y++) {

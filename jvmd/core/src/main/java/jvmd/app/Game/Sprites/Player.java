@@ -8,6 +8,8 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.Gdx;
+
+import jvmd.app.Constants;
 import jvmd.app.Game.GameScreen;
 import jvmd.app.Constants;
 
@@ -15,7 +17,8 @@ public class Player extends AnimatedSprite {
 	
 	private boolean Left;
 	private boolean Right;
-	private boolean Space;
+	private boolean Down;
+	private int Space;
 	private boolean alive;
 
 	public static final float DAMPING = 0.87f;
@@ -35,8 +38,6 @@ public class Player extends AnimatedSprite {
 	public Animation<TextureRegion> stand;
 	public Animation<TextureRegion> walk;
 	public Animation<TextureRegion> jump;
-	
-	public boolean KeyRightDown, KeyLeftDown, KeyJumpDown;
 	
 	public Player(GameScreen p_screen, float x, float y) {
 		super(p_screen, 20, 50, x, y);
@@ -61,7 +62,7 @@ public class Player extends AnimatedSprite {
 		this.alive = true;
 		this.Left = false;
 		this.Right = false;
-		this.Space = false;
+		this.Space = 0;
 	}
 	
 	public void Jump() {
@@ -72,13 +73,13 @@ public class Player extends AnimatedSprite {
 	public void update(float delta) {
 		if (delta == 0) return;
 
-		if (delta > 0.05f)
-			delta = 0.05f;
+		if (delta > 0.001f)
+			delta = 0.001f;
 
 		stateTime += delta;
 
 		// check input and apply to velocity & state
-		if (Space && grounded) {
+		if (Space == 1 && grounded) {
 			velocity.y += JUMP_VELOCITY;
 			state = State.Jumping;
 			grounded = false;
@@ -97,7 +98,7 @@ public class Player extends AnimatedSprite {
 		}
 
 		// apply gravity if we are falling
-		velocity.add(0, -5f); //TODO: -2.5f as GRAVITY Constant
+		velocity.add(0, Constants.GRAVITY);
 
 		// clamp the velocity to the maximum, x-axis only
 		velocity.x = MathUtils.clamp(velocity.x,
@@ -114,7 +115,7 @@ public class Player extends AnimatedSprite {
 		velocity.scl(delta);
 
 		// perform collision detection & response, on each axis, separately
-		// if the mario is moving right, check the tiles to the right of it's
+		// if mario is moving right, check the tiles to the right of it's
 		// right bounding box edge, otherwise check the ones to the left
 		Rectangle marioRect = game.pool.obtain();
 		marioRect.set(position.x, position.y, WIDTH, HEIGHT);
@@ -126,7 +127,7 @@ public class Player extends AnimatedSprite {
 		}
 		startY = (int)(position.y);
 		endY = (int)(position.y + HEIGHT);
-		game.getTiles(startX, startY, endX, endY);
+		game.getTiles(startX, startY, endX, endY, "walls");
 		marioRect.x += velocity.x;
 		if(game.overlapsTiles(marioRect) != null)
 				velocity.x = 0;
@@ -141,19 +142,34 @@ public class Player extends AnimatedSprite {
 		}
 		startX = (int)(position.x);
 		endX = (int)(position.x + WIDTH);
-		game.getTiles(startX, startY, endX, endY);
+		game.getTiles(startX, startY, endX, endY, "walls");
 		marioRect.y += velocity.y;
 		Rectangle tileTested = game.overlapsTiles(marioRect);
 		if(tileTested != null) {
 			if (velocity.y > 0) {
 				position.y = tileTested.y - HEIGHT;
-				// we hit a block jumping upwards, let's destroy it!
-				TiledMapTileLayer layer = (TiledMapTileLayer) game.map.getLayers().get("walls");
-				layer.setCell((int)tileTested.x, (int)tileTested.y, null);
 			} else {
 				position.y = tileTested.y + tileTested.height;
 				// if we hit the ground, mark us as grounded so we can jump
 				grounded = true;
+			}
+			velocity.y = 0;
+		}
+		game.getTiles(startX, startY, endX, endY, "breakable");
+		tileTested = game.overlapsTiles(marioRect);
+		if(tileTested != null) {
+			if (velocity.y > 0) {
+				position.y = tileTested.y - HEIGHT;
+				// we hit a block jumping upwards, let's destroy it!
+				TiledMapTileLayer layer = (TiledMapTileLayer) game.map.getLayers().get("breakable");
+				layer.setCell((int)tileTested.x, (int)tileTested.y, null);
+			} else {
+				position.y = tileTested.y + tileTested.height;
+				grounded = true;
+				if(Down) {
+					TiledMapTileLayer layer = (TiledMapTileLayer) game.map.getLayers().get("breakable");
+					layer.setCell((int)tileTested.x, (int)tileTested.y, null);
+				}
 			}
 			velocity.y = 0;
 		}
@@ -202,16 +218,30 @@ public class Player extends AnimatedSprite {
 	}
 
 	/**
+	 * @param left the left to set
+	 */
+	public void setDown(boolean down) {
+		Down = down;
+	}
+
+	/**
+	 * @return the right
+	 */
+	public boolean isDown() {
+		return Down;
+	}
+
+	/**
 	 * @return the space
 	 */
-	public boolean isSpace() {
+	public int getSpace() {
 		return Space;
 	}
 
 	/**
 	 * @param space the space to set
 	 */
-	public void setSpace(boolean space) {
+	public void setSpace(int space) {
 		Space = space;
 	}
 

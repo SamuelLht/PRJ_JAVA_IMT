@@ -7,9 +7,6 @@ import com.badlogic.gdx.physics.box2d.World;
 public class GameInputProcessor implements InputProcessor {
 	
 	private GameScreen screen;
-	public boolean KeyRight = false;
-	public boolean KeyLeft = false;
-	public boolean KeyJump = false;
 	
 	public GameInputProcessor(GameScreen screen, World world) {
 		// TODO Auto-generated constructor stub
@@ -27,8 +24,14 @@ public class GameInputProcessor implements InputProcessor {
 			case Keys.RIGHT:
 				screen.Mario.setRight(true);
 				break;
+			case Keys.DOWN:
+				screen.Mario.setDown(true);
+				break;
 			case Keys.SPACE:
-				screen.Mario.setSpace(true);
+				if(screen.Mario.getSpace() == 0)
+					screen.Mario.setSpace(1);
+				else
+					screen.Mario.setSpace(2);
 				break;
 			case Keys.ESCAPE:
 				screen.pause();
@@ -46,8 +49,11 @@ public class GameInputProcessor implements InputProcessor {
 			case Keys.RIGHT:
 				screen.Mario.setRight(false);
 				break;
+			case Keys.DOWN:
+				screen.Mario.setDown(false);
+				break;
 			case Keys.SPACE:
-				screen.Mario.setSpace(false);
+				screen.Mario.setSpace(0);
 				break;
 	    }
 	    return true;
