@@ -13,7 +13,7 @@ public class Constants {
 	public static final int SCREEN_HEIGHT = 600;
 	
 	// Game Constants
-	public static final Vector2 GRAVITY = new Vector2(0.0f, -9.8f * 4);
+	public static final float GRAVITY =  -9.8f * 4;
 
 	public static final float TIME_STEP = 1;
 

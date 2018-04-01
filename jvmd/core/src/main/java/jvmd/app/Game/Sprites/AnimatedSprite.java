@@ -16,8 +16,8 @@ public abstract class AnimatedSprite extends Sprite {
 	protected Animation<TextureRegion> walk;
 	protected Animation<TextureRegion> jump;
 
-	public static final float MAX_VELOCITY = 10f;
-	public static final float JUMP_VELOCITY = 60f;
+	public static final float MAX_VELOCITY = 150f;
+	public static final float JUMP_VELOCITY = 600f;
 	final Vector2 position = new Vector2();
 	final Vector2 velocity = new Vector2();
 	State state = State.Walking;
