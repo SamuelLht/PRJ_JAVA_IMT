@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
@@ -20,6 +21,7 @@ import com.badlogic.gdx.utils.Pool;
 
 import jvmd.app.JVMD;
 import jvmd.app.Game.Sprites.Player;
+import jvmd.app.Constants;
 
 public class GameScreen extends ApplicationAdapter implements Screen {
 
@@ -93,9 +95,34 @@ public class GameScreen extends ApplicationAdapter implements Screen {
 			launchMenu();
 		}
 		
+		TextureRegion frame = null;
+		switch (Mario.state) {
+			case Standing:
+				frame = Mario.stand.getKeyFrame(0);
+				break;
+			case Walking:
+				frame = Mario.walk.getKeyFrame(Mario.stateTime);
+				break;
+			case Jumping:
+				frame = Mario.jump.getKeyFrame(Mario.stateTime);
+				break;
+		}
+
+		// draw the koala, depending on the current velocity
+		// on the x-axis, draw the koala facing either right
+		// or left
+		Batch batch = renderer.getBatch();
 		batch.begin();
-		batch.draw(Mario.getTexture(), Mario.getPosition().x, Mario.getPosition().y, Mario.getWIDTH(), Mario.getHEIGHT());
+		if (Mario.facesRight) {
+			batch.draw(frame, Mario.position.x, Mario.position.y, Mario.getWIDTH(), Mario.getHEIGHT());
+		} else {
+			batch.draw(frame, Mario.position.x + Mario.getWIDTH(), Mario.position.y, -Mario.getWIDTH(), Mario.getHEIGHT());
+		}
 		batch.end();
+		
+		/*batch.begin();
+		batch.draw(Mario.getTexture(), Mario.getPosition().x, Mario.getPosition().y, Mario.getWIDTH(), Mario.getHEIGHT());
+		batch.end();*/
 
 	}
 

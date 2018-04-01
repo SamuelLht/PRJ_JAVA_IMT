@@ -1,6 +1,7 @@
 package jvmd.app.Game.Sprites;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.MathUtils;
@@ -8,6 +9,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.Gdx;
 import jvmd.app.Game.GameScreen;
+import jvmd.app.Constants;
 
 public class Player extends AnimatedSprite {
 	
@@ -18,18 +20,21 @@ public class Player extends AnimatedSprite {
 
 	public static final float DAMPING = 0.87f;
 	
-	private final Vector2 position;
+	public final Vector2 position;
 	private final Vector2 velocity;
-	private State state;
-	private float stateTime;
-	private boolean facesRight;
+	public State state;
+	public float stateTime;
+	public boolean facesRight;
 	private boolean grounded;
 	
 	public static final int ConstantVitesse = 500;
 	public static final int HauteurSaut = 2000;
 	
-	private Texture marioTexture;
+	private Texture marioTexturePanel;
 	private TextureRegion[][] regions;
+	public Animation<TextureRegion> stand;
+	public Animation<TextureRegion> walk;
+	public Animation<TextureRegion> jump;
 	
 	public boolean KeyRightDown, KeyLeftDown, KeyJumpDown;
 	
@@ -43,9 +48,16 @@ public class Player extends AnimatedSprite {
 		this.grounded = false;
 		this.position.x = x;
 		this.position.y = y;
-		setTexture(new Texture(Gdx.files.internal("mario_simple.png")));
-		this.WIDTH = getTexture().getWidth() / 16f;
-		this.HEIGHT = getTexture().getHeight() / 16f;
+		// load the koala frames, split them, and assign them to Animations
+		marioTexturePanel = new Texture(Gdx.files.internal("Mario_Panel.png"));
+		TextureRegion[] regions = TextureRegion.split(marioTexturePanel, 20, 20)[0];
+		stand = new Animation<TextureRegion>(0, regions[0]);
+		jump = new Animation<TextureRegion>(0, regions[3]);
+		walk = new Animation<TextureRegion>(0.2f, regions[0], regions[1]);
+		walk.setPlayMode(Animation.PlayMode.LOOP);
+		//setTexture(new Texture(Gdx.files.internal("Mario_Panel.png")));
+		this.WIDTH = (marioTexturePanel.getWidth()/regions.length) / 16f;
+		this.HEIGHT = marioTexturePanel.getHeight() / 16f; //getTexture().getHeight() / 16f;
 		this.alive = true;
 		this.Left = false;
 		this.Right = false;
@@ -277,14 +289,14 @@ public class Player extends AnimatedSprite {
 	 * @return the marioTexture
 	 */
 	public Texture getMarioTexture() {
-		return marioTexture;
+		return marioTexturePanel;
 	}
 
 	/**
 	 * @param marioTexture the marioTexture to set
 	 */
 	public void setMarioTexture(Texture marioTexture) {
-		this.marioTexture = marioTexture;
+		this.marioTexturePanel = marioTexture;
 	}
 
 	/**

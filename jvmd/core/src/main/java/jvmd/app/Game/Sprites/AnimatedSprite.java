@@ -8,7 +8,7 @@ import jvmd.app.Game.GameScreen;
 
 public abstract class AnimatedSprite extends Sprite {
 	
-	enum State {
+	public enum State {
 		Standing, Walking, Jumping
 	}
 

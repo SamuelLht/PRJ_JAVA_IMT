@@ -21,4 +21,8 @@ public class Constants {
 
 	public static final int POSITION_ITERATIONS = 1;
 	
+	public enum State{
+		Standing, Walking, Jumping
+	}
+	
 }
