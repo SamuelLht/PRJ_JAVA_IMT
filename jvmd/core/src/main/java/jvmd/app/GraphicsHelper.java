@@ -15,9 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 
 public class GraphicsHelper
 {   
-	
 	// Singleton
-	
 	private static GraphicsHelper INSTANCE = null;
     
     public static synchronized GraphicsHelper getInstance()
@@ -29,7 +27,6 @@ public class GraphicsHelper
     }
 	
     // Properties
-    
 	Skin UISkin;
 	
 	FreeTypeFontGenerator MarioFontGenerator;
@@ -38,10 +35,8 @@ public class GraphicsHelper
 	TextButtonStyle UITextButtonStyle;
 	
 	// Constructor
-	
     private GraphicsHelper()
     {
-    	
     	UISkin = new Skin(new TextureAtlas(Gdx.files.internal("sprites.atlas")));
     	
     	MarioFontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("super_mario_bros.ttf"));
@@ -55,7 +50,6 @@ public class GraphicsHelper
     }
     
     // Helper methods
-    
     public TextButton getTextButton(String content, int size, InputListener listener) {
     	UITextButtonStyle.font = getMarioFont(size);
     	TextButton button = new TextButton(content, UITextButtonStyle);

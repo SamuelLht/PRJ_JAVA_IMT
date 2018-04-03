@@ -37,7 +37,6 @@ public class GameScreen extends ApplicationAdapter implements Screen {
 	public Player Mario;
 
 	public Pool<Rectangle> pool = new Pool<Rectangle>() {
-		@Override
 		protected Rectangle newObject() {
 			return new Rectangle();
 		}
@@ -63,13 +62,11 @@ public class GameScreen extends ApplicationAdapter implements Screen {
 		map = new TmxMapLoader().load("tilset/Niveau1.tmx");
 		renderer = new OrthogonalTiledMapRenderer(map, 1 / 20f);
 
-		// create an orthographic camera, shows us 30x20 units of the world
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, 30, 20);
 		camera.update();
-
+		
 		batch = renderer.getBatch();
-
 		Mario = new Player(this, 2, 30);
 	}
 
@@ -81,13 +78,8 @@ public class GameScreen extends ApplicationAdapter implements Screen {
 		float deltaTime = Gdx.graphics.getDeltaTime();
 
 		Mario.update(deltaTime);
-
-		// let the camera follow mario, x-axis only
 		camera.position.x = Mario.getPosition().x;
 		camera.update();
-
-		// set the TiledMapRenderer view based on what the
-		// camera sees, and render the map
 		renderer.setView(camera);
 		renderer.render();
 		
@@ -108,9 +100,6 @@ public class GameScreen extends ApplicationAdapter implements Screen {
 				break;
 		}
 
-		// draw the koala, depending on the current velocity
-		// on the x-axis, draw the koala facing either right
-		// or left
 		Batch batch = renderer.getBatch();
 		batch.begin();
 		if (Mario.facesRight) {
@@ -123,22 +112,7 @@ public class GameScreen extends ApplicationAdapter implements Screen {
 		/*batch.begin();
 		batch.draw(Mario.getTexture(), Mario.getPosition().x, Mario.getPosition().y, Mario.getWIDTH(), Mario.getHEIGHT());
 		batch.end();*/
-		
-		//A GARDER OU PAS / RESOLUTION DE CONFLIT 01/03
-		//renderMario(delta);
 	}
-	
-	private void renderMario (float deltaTime) {
-
-		Batch batch = renderer.getBatch();
-		batch.begin();
-		if (Mario.isFacesRight()) {
-			batch.draw(Mario.getTexture(), Mario.getPosition().x, Mario.getPosition().y, Mario.getWIDTH(), Mario.getHEIGHT());
-		} else {
-			batch.draw(Mario.getTexture(), Mario.getPosition().x + Mario.getWIDTH(), Mario.getPosition().y, -Mario.getWIDTH(), Mario.getHEIGHT());
-		}
-		batch.end();
-}
 	
 	public void launchMenu() {
 		app.launchMenu();
@@ -170,27 +144,13 @@ public class GameScreen extends ApplicationAdapter implements Screen {
 	}
 
 	@Override
-	public void resize(int width, int height) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	public void pause() {
-		// TODO Auto-generated method stub
 		app.setScreen(new PauseScreen(app, this));
 	}
 
 	@Override
 	public void resume() {
-		// TODO Auto-generated method stub
 		Gdx.input.setInputProcessor(GameInputProc);
-	}
-
-	@Override
-	public void hide() {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -202,9 +162,8 @@ public class GameScreen extends ApplicationAdapter implements Screen {
 	}
 
 	@Override
-	public void show() {
-		// TODO Auto-generated method stub
-
-	}
-
+	public void show() {}
+	
+	@Override
+	public void hide() {	}
 }

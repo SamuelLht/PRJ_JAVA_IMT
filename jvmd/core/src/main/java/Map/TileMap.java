@@ -7,7 +7,7 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 
 /**
- * Classe utilitaire permettant de generer des TiledMap qu'on peut ensuite afficher facilement où on veut.
+ * Classe utilitaire permettant de generer des TiledMap qu'on peut ensuite afficher facilement oï¿½ on veut.
  * 
  * @author Yazid
  *
@@ -25,7 +25,6 @@ public class TileMap {
 	public TileMap(String PathToTmx, OrthographicCamera camera) {
 		tiledMap = new TmxMapLoader().load(PathToTmx);
 		tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
-		
 	}
 
 	public TiledMap getTiledMap() {
@@ -42,7 +41,5 @@ public class TileMap {
 
 	public void setTiledMapRenderer(TiledMapRenderer tiledMapRenderer) {
 		this.tiledMapRenderer = tiledMapRenderer;
-	}
-	
-	
+	}	
 }
