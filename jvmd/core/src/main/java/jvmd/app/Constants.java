@@ -1,7 +1,5 @@
 package jvmd.app;
 
-import com.badlogic.gdx.math.Vector2;
-
 public class Constants {
 	
 	// General Constants
@@ -20,6 +18,9 @@ public class Constants {
 	public static final int VELOCITY_ITERATIONS = 1;
 
 	public static final int POSITION_ITERATIONS = 1;
+	
+	public static final float PLAYER_WIDTH = 0.9f;
+	public static final float PLAYER_HEIGHT = 1.5f;
 	
 	public enum State{
 		Standing, Walking, Jumping

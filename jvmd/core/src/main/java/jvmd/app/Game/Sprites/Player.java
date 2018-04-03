@@ -11,7 +11,6 @@ import com.badlogic.gdx.Gdx;
 
 import jvmd.app.Constants;
 import jvmd.app.Game.GameScreen;
-import jvmd.app.Constants;
 
 public class Player extends AnimatedSprite {
 	
@@ -40,7 +39,7 @@ public class Player extends AnimatedSprite {
 	public Animation<TextureRegion> jump;
 	
 	public Player(GameScreen p_screen, float x, float y) {
-		super(p_screen, 20, 50, x, y);
+		super(p_screen, Constants.PLAYER_WIDTH, Constants.PLAYER_HEIGHT, x, y);
 		this.position = new Vector2();
 		this.velocity = new Vector2();
 		this.state = State.Walking;
@@ -56,9 +55,6 @@ public class Player extends AnimatedSprite {
 		jump = new Animation<TextureRegion>(0, regions[3]);
 		walk = new Animation<TextureRegion>(0.2f, regions[0], regions[1]);
 		walk.setPlayMode(Animation.PlayMode.LOOP);
-		//setTexture(new Texture(Gdx.files.internal("Mario_Panel.png")));
-		this.WIDTH = (marioTexturePanel.getWidth()/regions.length) / 16f;
-		this.HEIGHT = marioTexturePanel.getHeight() / 16f; //getTexture().getHeight() / 16f;
 		this.alive = true;
 		this.Left = false;
 		this.Right = false;
