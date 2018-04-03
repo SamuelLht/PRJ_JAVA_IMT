@@ -48,12 +48,11 @@ public class Player extends AnimatedSprite {
 		this.grounded = false;
 		this.position.x = x;
 		this.position.y = y;
-		// load the koala frames, split them, and assign them to Animations
 		marioTexturePanel = new Texture(Gdx.files.internal("Mario_Panel.png"));
 		TextureRegion[] regions = TextureRegion.split(marioTexturePanel, 20, 20)[0];
 		stand = new Animation<TextureRegion>(0, regions[0]);
 		jump = new Animation<TextureRegion>(0, regions[3]);
-		walk = new Animation<TextureRegion>(0.2f, regions[0], regions[1]);
+		walk = new Animation<TextureRegion>(0.01f, regions[0], regions[1]);
 		walk.setPlayMode(Animation.PlayMode.LOOP);
 		this.alive = true;
 		this.Left = false;
@@ -74,7 +73,6 @@ public class Player extends AnimatedSprite {
 
 		stateTime += delta;
 
-		// check input and apply to velocity & state
 		if (Space == 1 && grounded) {
 			velocity.y += JUMP_VELOCITY;
 			state = State.Jumping;
@@ -93,26 +91,18 @@ public class Player extends AnimatedSprite {
 			facesRight = true;
 		}
 
-		// apply gravity if we are falling
 		velocity.add(0, Constants.GRAVITY);
 
-		// clamp the velocity to the maximum, x-axis only
 		velocity.x = MathUtils.clamp(velocity.x,
 				-MAX_VELOCITY, MAX_VELOCITY);
 
-		// If the velocity is < 1, set it to 0 and set state to Standing
 		if (Math.abs(velocity.x) < 1) {
 			velocity.x = 0;
 			if (grounded) state = State.Standing;
 		}
 
-		// multiply by delta time so we know how far we go
-		// in this frame
 		velocity.scl(delta);
 
-		// perform collision detection & response, on each axis, separately
-		// if mario is moving right, check the tiles to the right of it's
-		// right bounding box edge, otherwise check the ones to the left
 		Rectangle marioRect = game.pool.obtain();
 		marioRect.set(position.x, position.y, WIDTH, HEIGHT);
 		int startX, startY, endX, endY;
@@ -129,8 +119,6 @@ public class Player extends AnimatedSprite {
 				velocity.x = 0;
 		marioRect.x = position.x;
 
-		// if the mario is moving upwards, check the tiles to the top of its
-		// top bounding box edge, otherwise check the ones to the bottom
 		if (velocity.y > 0) {
 			startY = endY = (int)(position.y + HEIGHT + velocity.y);
 		} else {
@@ -146,7 +134,6 @@ public class Player extends AnimatedSprite {
 				position.y = tileTested.y - HEIGHT;
 			} else {
 				position.y = tileTested.y + tileTested.height;
-				// if we hit the ground, mark us as grounded so we can jump
 				grounded = true;
 			}
 			velocity.y = 0;
@@ -156,7 +143,6 @@ public class Player extends AnimatedSprite {
 		if(tileTested != null) {
 			if (velocity.y > 0) {
 				position.y = tileTested.y - HEIGHT;
-				// we hit a block jumping upwards, let's destroy it!
 				TiledMapTileLayer layer = (TiledMapTileLayer) game.map.getLayers().get("breakable");
 				layer.setCell((int)tileTested.x, (int)tileTested.y, null);
 			} else {
@@ -171,13 +157,9 @@ public class Player extends AnimatedSprite {
 		}
 		game.pool.free(marioRect);
 
-		// unscale the velocity by the inverse delta time and set
-		// the latest position
 		position.add(velocity);
 		velocity.scl(1 / delta);
 
-		// Apply damping to the velocity on the x-axis so we don't
-		// walk infinitely once a key was pressed
 		velocity.x *= DAMPING;
 		
 		if(position.y + HEIGHT< 0) {

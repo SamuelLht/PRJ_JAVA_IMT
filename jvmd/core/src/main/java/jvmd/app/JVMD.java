@@ -13,14 +13,11 @@ public class JVMD extends Game implements ApplicationListener {
 	public AssetManager assets;
 
     @Override
-
     public void create() {
-    	
         new SpriteBatch();
         assets = new AssetManager();
 
         launchMenu();
-        
     }
 
     @Override
@@ -46,7 +43,6 @@ public class JVMD extends Game implements ApplicationListener {
     }
 
 	public void launchGame() {
-		// TODO Auto-generated method stub
 		this.setScreen(new GameScreen(this));
 	}
 	

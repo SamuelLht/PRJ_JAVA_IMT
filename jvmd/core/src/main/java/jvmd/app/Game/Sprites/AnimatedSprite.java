@@ -41,5 +41,4 @@ public abstract class AnimatedSprite extends Sprite {
 	public void Right() {
 		setX(getX()+1);
 	}
-	
 }

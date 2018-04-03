@@ -15,14 +15,10 @@ public abstract class Sprite extends com.badlogic.gdx.graphics.g2d.Sprite {
 	}
 	
 	public Sprite(GameScreen screen, float width, float height, float x, float y) {
-		
         this.game = screen;
-        
         this.WIDTH = width;
         this.HEIGHT = height;
-        
         setPosition(x, y);
-
     }
 
 	/**
