@@ -20,7 +20,7 @@ public class Constants {
 	public static final int POSITION_ITERATIONS = 1;
 	
 	public static final float PLAYER_WIDTH = 0.9f;
-	public static final float PLAYER_HEIGHT = 1.5f;
+	public static final float PLAYER_HEIGHT = 1f;
 	
 	public enum State{
 		Standing, Walking, Jumping
